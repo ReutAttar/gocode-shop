@@ -21,10 +21,12 @@ class Products extends React.Component {
       this.productsItems = this.createProduct(this.props.products);
     //If the user selected a category to filter
     else {
-      const filteredProducts = this.props.products.filter(({ category }) => {
-        return category === this.props.filter;
-      });
-      this.productsItems = this.createProduct(filteredProducts);
+      // const filteredProducts = this.props.products.filter(({ category }) => {
+      //   return category === this.props.filter;
+      // });
+      this.productsItems = this.createProduct(
+        this.props.products.filter(({ category }) => category === this.props.filter)
+      );
     }
 
     return (

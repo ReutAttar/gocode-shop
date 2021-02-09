@@ -7,7 +7,6 @@ class Product extends React.Component {
     const { sale, image, title, price } = this.props;
     return (
       <div className="product-card">
-        {/* {filter === category ? "product-card filter" : "product-card"} */}
         {sale && price > 60 && <span className="onSale-label">SALE</span>}
         <div className="product-image">
           <img src={image} alt="productImg" />
