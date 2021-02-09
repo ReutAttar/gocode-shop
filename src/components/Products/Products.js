@@ -1,47 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import SaleCountDown from "../SaleCountDown/SaleCountDown";
 import Product from "../Product/Product";
 import "./Products.css";
 import PropTypes from "prop-types";
 
-class Products extends React.Component {
-  state = {
-    sale: false,
-  };
-  productsItems;
-  createProduct = (listOfProducts) => {
-    return listOfProducts.map(({ title, image, price, id }) => (
-      <Product sale={this.state.sale} title={title} price={price} image={image} key={id} />
-    ));
-  };
+const Products = ({ products, filter }) => {
+  const [sale, setSale] = useState(true);
+  let filteredProducts;
 
-  render() {
-    if (this.props.filter === "All")
-      //the default filter
-      this.productsItems = this.createProduct(this.props.products);
-    //If the user selected a category to filter
-    else {
-      // const filteredProducts = this.props.products.filter(({ category }) => {
-      //   return category === this.props.filter;
-      // });
-      this.productsItems = this.createProduct(
-        this.props.products.filter(({ category }) => category === this.props.filter)
-      );
-    }
+  filter === "All"
+    ? (filteredProducts = products)
+    : (filteredProducts = products.filter(({ category }) => category === filter));
 
-    return (
-      <section className="products">
-        <SaleCountDown
-          isSale={(isSale) => {
-            this.setState({ sale: isSale });
-          }}
-          sale={this.state.sale}
-        />
-        {this.productsItems}
-      </section>
-    );
-  }
-}
+  const productsItems = filteredProducts.map(({ title, image, price, id }) => (
+    <Product sale={sale} title={title} price={price} image={image} key={id} />
+  ));
+
+  return (
+    <section className="products">
+      <SaleCountDown
+        isSale={(isSale) => {
+          setSale(isSale);
+        }}
+        sale={sale}
+      />
+      {productsItems}
+    </section>
+  );
+};
 
 Products.propTypes = {
   products: PropTypes.array,

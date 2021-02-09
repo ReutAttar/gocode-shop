@@ -14,6 +14,11 @@ const App = () => {
       const json = await res.json();
       setProducts(json);
     }
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
     const getCategories = () => {
       const groupBy = (xs, key) =>
         xs.reduce((rv, x) => {
@@ -23,25 +28,8 @@ const App = () => {
       setCategories(Object.keys(groupBy(products, "category")));
     };
 
-    fetchData();
     getCategories();
   }, [products]);
-
-  // async componentDidMount() {
-  //   const res = await fetch("https://fakestoreapi.com/products");
-  //   const json = await res.json();
-  //   setProducts(json);
-  //   this.getCategories();
-  // }
-
-  // const getCategories = () => {
-  //   const groupBy = (xs, key) =>
-  //     xs.reduce((rv, x) => {
-  //       rv[x[key]] = true || [];
-  //       return rv;
-  //     }, {});
-  //   setCategories(Object.keys(groupBy(products, "category")));
-  // };
 
   return (
     <React.Fragment>
