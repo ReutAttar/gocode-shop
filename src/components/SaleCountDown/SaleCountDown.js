@@ -1,29 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./SaleCountDown.css";
 import PropTypes from "prop-types";
 
-const SaleCountDown = ({ sale, isSale }) => {
+const SaleCountDown = ({ SetIsSale }) => {
+  const [sale, setSale] = useState(true);
   const [days, setDays] = useState(0);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
+  const deadline = Date.parse(new Date("2021-02-28T18:28:00"));
+  const intervalID = useRef(null);
 
   useEffect(() => {
-    const deadline = Date.parse(new Date("2021-02-25T19:28:00"));
-
-    // isSale(true);
-    const intervalID = setInterval(() => {
+    intervalID.current = setInterval(() => {
       const total = deadline - Date.parse(new Date());
       setSeconds(Math.floor((total / 1000) % 60));
       setMinutes(Math.floor((total / 1000 / 60) % 60));
       setHours(Math.floor((total / (1000 * 60 * 60)) % 24));
       setDays(Math.floor(total / (1000 * 60 * 60 * 24)));
       if (total <= 0) {
-        clearInterval(intervalID);
-        isSale(false);
+        clearInterval(intervalID.current);
+        setSale(false);
       }
     }, 1000);
-  }, []);
+  }, [deadline]);
+
+  useEffect(() => {
+    SetIsSale(sale);
+  }, [SetIsSale, sale]);
 
   return sale ? (
     <div className="divCountdown">

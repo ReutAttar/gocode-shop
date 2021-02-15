@@ -19,10 +19,9 @@ const Products = ({ products, filter }) => {
   return (
     <section className="products">
       <SaleCountDown
-        isSale={(isSale) => {
+        SetIsSale={(isSale) => {
           setSale(isSale);
         }}
-        sale={sale}
       />
       {productsItems}
     </section>
