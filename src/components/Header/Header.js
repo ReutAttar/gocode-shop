@@ -1,15 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Header.css";
 import PropTypes from "prop-types";
+import { MY_APP_NAME } from "../../constants";
+import { Slider } from "antd";
 
-const Header = ({ categories, selectFilter }) => {
+const Header = ({ categories, selectedFilter, selectedRange, MIN, MAX }) => {
+  const [minPrice, setMinPrice] = useState(MIN);
+  const [maxPrice, setMaxPrice] = useState(MAX);
+
+  function onChange(value) {
+    // console.log("onChange: ", value);
+    const [min, max] = value;
+    setMaxPrice(max);
+    setMinPrice(min);
+  }
+
+  // useEffect(() => {
+  //   if (MIN !== 0 && MAX !== 0) {
+  //     setMinPrice(MIN);
+  //     setMaxPrice(MAX);
+  //   }
+  // }, [MAX, MIN]);
+
+  function onAfterChange(value) {
+    // console.log("onAfterChange: ", value);
+    const [min, max] = value;
+    setMaxPrice(max);
+    setMinPrice(min);
+    selectedRange(value);
+  }
+
   return (
     <nav className="product-filter">
-      <h1>Jackets</h1>
+      <h1 id="appTitle">{MY_APP_NAME}</h1>
+      <div style={{ width: "100%" }}>
+        <Slider range defaultValue={[MIN, MAX]} max={MAX} min={MIN} onAfterChange={onAfterChange} onChange={onChange} />
+        <div className="price_label">
+          <span className="from">{`${minPrice}$`}</span> - <span className="to">{`${maxPrice}$`}</span>
+        </div>
+      </div>
       <div className="sort">
         <div className="collection-sort">
           <label>Filter by:</label>
-          <select onChange={(event) => selectFilter(event.target.value)}>
+          <select onChange={(event) => selectedFilter(event.target.value)}>
             <option value="All">All</option>
             {categories.map((category) => (
               <option value={category} key={categories.indexOf(category)}>

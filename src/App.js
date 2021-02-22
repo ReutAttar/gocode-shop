@@ -1,41 +1,34 @@
 import "./App.css";
-import React, { useEffect, useState } from "react";
-import Header from "./components/Header/Header";
-import Products from "./components/Products/Products";
+// import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import About from "./pages/About";
+import Home from "./pages/Home";
+import ProductPage from "./pages/ProductPage/ProductPage";
 
 const App = () => {
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [filter, setFilter] = useState("All");
-
-  useEffect(() => {
-    async function fetchData() {
-      const res = await fetch("https://fakestoreapi.com/products");
-      const json = await res.json();
-      setProducts(json);
-    }
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const getCategories = () => {
-      const groupBy = (xs, key) =>
-        xs.reduce((rv, x) => {
-          rv[x[key]] = true || [];
-          return rv;
-        }, {});
-      setCategories(Object.keys(groupBy(products, "category")));
-    };
-
-    getCategories();
-  }, [products]);
-
   return (
-    <React.Fragment>
-      <Header selectFilter={(filter) => setFilter(filter)} categories={categories} />
-      <Products filter={filter} products={products} />
-    </React.Fragment>
+    <Router>
+      <nav className="navigation">
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/about">About</Link>
+          </li>
+        </ul>
+      </nav>
+
+      <Switch>
+        <Route path="/products/:productId" component={ProductPage} />
+        <Route path="/about">
+          <About />
+        </Route>
+        <Route path="/">
+          <Home />
+        </Route>
+      </Switch>
+    </Router>
   );
 };
 

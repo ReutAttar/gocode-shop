@@ -1,35 +1,46 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import "./SaleCountDown.css";
 import PropTypes from "prop-types";
 
-const SaleCountDown = ({ SetIsSale }) => {
-  const [sale, setSale] = useState(true);
+import { deadline } from "../../constants";
+// const deadline = Date.parse(new Date("2021-02-28T18:28:00"));
+
+const SaleCountDown = ({ onFinish }) => {
+  // const [sale, setSale] = useState(true);
+  const [isStarted, setIsStarted] = useState(false);
   const [days, setDays] = useState(0);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
-  const deadline = Date.parse(new Date("2021-02-28T18:28:00"));
   const intervalID = useRef(null);
 
-  useEffect(() => {
-    intervalID.current = setInterval(() => {
-      const total = deadline - Date.parse(new Date());
-      setSeconds(Math.floor((total / 1000) % 60));
-      setMinutes(Math.floor((total / 1000 / 60) % 60));
-      setHours(Math.floor((total / (1000 * 60 * 60)) % 24));
-      setDays(Math.floor(total / (1000 * 60 * 60 * 24)));
-      if (total <= 0) {
-        clearInterval(intervalID.current);
-        setSale(false);
-      }
-    }, 1000);
-  }, [deadline]);
+  const finish = useCallback(() => {
+    setIsStarted(false);
+    onFinish(false);
+  }, [onFinish]);
 
   useEffect(() => {
-    SetIsSale(sale);
-  }, [SetIsSale, sale]);
+    setIsStarted(true);
+    let total = deadline - Date.parse(new Date());
+    if (total > 0) {
+      intervalID.current = setInterval(() => {
+        total = deadline - Date.parse(new Date());
+        setSeconds(Math.floor((total / 1000) % 60));
+        setMinutes(Math.floor((total / 1000 / 60) % 60));
+        setHours(Math.floor((total / (1000 * 60 * 60)) % 24));
+        setDays(Math.floor(total / (1000 * 60 * 60 * 24)));
+        if (total <= 0) {
+          clearInterval(intervalID.current);
+          finish();
+        }
+      }, 1000);
+    } else {
+      finish();
+    }
+    return () => clearInterval(intervalID.current);
+  }, [finish, onFinish]);
 
-  return sale ? (
+  return isStarted ? (
     <div className="divCountdown">
       <div className="Text">Final sale on selected items for a limited time</div>
       <div className="Countdown">

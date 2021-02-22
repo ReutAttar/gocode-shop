@@ -1,4 +1,4 @@
-h1 {
+#appTitle {
   font-size: 35px;
   font-weight: 300;
   flex: 1;
@@ -10,7 +10,7 @@ h1 {
 
 .sort {
   display: flex;
-  align-self: flex-end;
+  /* align-self: flex-end; */
 }
 
 .collection-sort {
