@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
-import SaleCountDown from "../SaleCountDown/SaleCountDown";
+// import SaleCountDown from "../SaleCountDown/SaleCountDown";
 import Product from "../Product/Product";
 import "./Products.css";
 import PropTypes from "prop-types";
 // import { Link } from "react-router-dom";
 
-const Products = ({ products, filter, priceRange }) => {
-  const [sale, setSale] = useState(true);
+const Products = ({ products, filter, priceRange, sale }) => {
   const [filteredProducts, setFilteredProducts] = useState(products);
-  const [byPriceProducts, setByPriceProducts] = useState(products);
+  // const [byPriceProducts, setByPriceProducts] = useState(products);
 
   useEffect(() => {
     filter === "All"
@@ -20,7 +19,7 @@ const Products = ({ products, filter, priceRange }) => {
     // console.log(priceRange);
     const [min, max] = priceRange;
     // console.log(min + " " + max);
-    console.log(products.filter(({ price }) => price >= min && price <= max));
+    // console.log(products.filter(({ price }) => price >= min && price <= max));
     setFilteredProducts(products.filter(({ price }) => price >= min && price <= max));
   }, [priceRange, products]);
 
@@ -30,12 +29,7 @@ const Products = ({ products, filter, priceRange }) => {
     <Product sale={sale && price > 60} title={title} price={price} image={image} key={id} id={id} />
   ));
 
-  return (
-    <section className="products">
-      <SaleCountDown onFinish={setSale} />
-      {productsItems}
-    </section>
-  );
+  return <section className="products">{productsItems}</section>;
 };
 
 Products.propTypes = {

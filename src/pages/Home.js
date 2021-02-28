@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Products from "../components/Products/Products";
 import Header from "../components/Header/Header";
+import SaleCountDown from "../components/SaleCountDown/SaleCountDown";
+import SaleContext from "../contexts/SaleContext";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -9,10 +11,12 @@ const Home = () => {
   const [priceRange, setPriceRange] = useState([0, 1000]);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(1000);
+  const [sale, setSale] = useState(true);
+  // const sale = useContext(SaleContext);
 
   useEffect(() => {
     async function fetchData() {
-      const res = await fetch("https://fakestoreapi.com/products");
+      const res = await fetch("http://localhost:8000"); //"https://fakestoreapi.com/products");
       const json = await res.json();
       setProducts(json);
     }
@@ -58,7 +62,8 @@ const Home = () => {
         MIN={minPrice}
         MAX={maxPrice}
       />
-      <Products filter={filter} products={products} priceRange={priceRange} />
+      <SaleCountDown onFinish={setSale} />
+      <Products sale={sale} filter={filter} products={products} priceRange={priceRange} />
     </React.Fragment>
   );
 };

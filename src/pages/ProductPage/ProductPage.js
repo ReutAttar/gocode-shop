@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import SaleContext from "../../contexts/SaleContext";
+// import SaleCountDown from "../../components/SaleCountDown/SaleCountDown";
+// import ThemeContext from "../../contexts/ThemeContext";
 import "./ProductPage.css";
 
 const ProductPage = ({ match }) => {
   const [product, setProduct] = useState({});
+  // const sale = useContext(SaleContext);
 
   useEffect(() => {
     async function fetchData() {
-      const res = await fetch(`https://fakestoreapi.com/products/${match.params.productId}`);
+      const res = await fetch(`http://localhost:8000/products/${match.params.productId}`); //`https://fakestoreapi.com/products/${match.params.productId}`);
       const json = await res.json();
       setProduct(json);
     }
@@ -14,20 +18,10 @@ const ProductPage = ({ match }) => {
     fetchData();
   }, [match.params.productId]);
 
-  //   return <div>Product Details: {product ? product.description : ""}</div>;
   return product ? (
-    // <div classNameName="product-page">
-    //   <div classNameName="product-page-image">
-    //     <img src={product.image} alt="productImg" />
-    //   </div>
-    //   <div classNameName="product-page-info">
-    //     <p>{product.description}</p>
-    //     <h5>{product.title}</h5>
-    //     <h6>{product.price}$</h6>
-    //   </div>
-    // </div>
     <div className="container">
       <div className="left">
+        {/* {sale && <span className="onSale-label">SALE</span>} */}
         <div className="images">
           <img src={product.image} alt="productImg" />
         </div>

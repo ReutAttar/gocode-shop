@@ -4,31 +4,64 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import About from "./pages/About";
 import Home from "./pages/Home";
 import ProductPage from "./pages/ProductPage/ProductPage";
+import ThemeContext, { themes } from "./contexts/ThemeContext";
+import { useState } from "react";
+import SaleContext, { sale } from "./contexts/SaleContext";
 
 const App = () => {
+  const [currentTheme, setCurrentTheme] = useState(themes.light);
   return (
-    <Router>
-      <nav className="navigation">
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-        </ul>
-      </nav>
+    <ThemeContext.Provider value={currentTheme}>
+      <SaleContext.Provider value={sale.isSale}>
+        <div className="toggleThemes">
+          <button
+            onClick={(event) => {
+              let el = event.target;
 
-      <Switch>
-        <Route path="/products/:productId" component={ProductPage} />
-        <Route path="/about">
-          <About />
-        </Route>
-        <Route path="/">
-          <Home />
-        </Route>
-      </Switch>
-    </Router>
+              if (el.getAttribute("aria-checked") === "true") {
+                el.setAttribute("aria-checked", "false");
+                setCurrentTheme(themes.dark);
+              } else {
+                el.setAttribute("aria-checked", "true");
+                setCurrentTheme(themes.light);
+              }
+            }}
+            role="switch"
+            aria-checked="true"
+            id="themesColor"
+            className="switch"
+          >
+            <span>dark</span>
+            <span>light</span>
+          </button>
+          <label htmlFor="themesColor" className="switch">
+            Themes
+          </label>
+        </div>
+        <Router>
+          <nav className="navigation">
+            <ul>
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li>
+                <Link to="/about">About</Link>
+              </li>
+            </ul>
+          </nav>
+
+          <Switch>
+            <Route path="/products/:productId" component={ProductPage} />
+            <Route path="/about">
+              <About />
+            </Route>
+            <Route path="/">
+              <Home />
+            </Route>
+          </Switch>
+        </Router>
+      </SaleContext.Provider>
+    </ThemeContext.Provider>
   );
 };
 

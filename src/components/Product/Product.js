@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Product.css";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import ThemeContext from "../../contexts/ThemeContext";
 
 const Product = ({ sale, image, title, price, id }) => {
+  const theme = useContext(ThemeContext);
+
   return (
-    <div className="product-card">
+    <div className="product-card" style={{ background: theme.background }}>
       {sale && <span className="onSale-label">SALE</span>}
       <div className="product-image">
         <Link to={`/products/${id}`}>
@@ -14,7 +17,7 @@ const Product = ({ sale, image, title, price, id }) => {
       </div>
       <div className="product-info">
         <Link to={`/products/${id}`}>
-          <h5>{title}</h5>
+          <h5 style={{ color: theme.foreground }}>{title}</h5>
         </Link>
         {sale ? (
           <div>
