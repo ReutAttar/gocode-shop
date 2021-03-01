@@ -24,46 +24,55 @@ const Header = ({ categories, selectedFilter, selectedRange, MIN, MAX }) => {
 
   function onAfterChange(value) {
     // console.log("onAfterChange: ", value);
-    const [min, max] = value;
-    setMaxPrice(max);
-    setMinPrice(min);
+    // const [min, max] = value;
+    // setMaxPrice(max);
+    // setMinPrice(min);
     selectedRange(value);
   }
-
   return (
     <nav className="product-filter">
       <h1 id="appTitle">{MY_APP_NAME}</h1>
-      <div style={{ width: "100%" }}>
-        <Slider range defaultValue={[MIN, MAX]} max={MAX} min={MIN} onAfterChange={onAfterChange} onChange={onChange} />
-        <div className="price_label">
-          <span className="from">{`${minPrice}$`}</span> - <span className="to">{`${maxPrice}$`}</span>
-        </div>
-      </div>
-      <div className="sort">
-        <div className="collection-sort">
-          <label>Filter by:</label>
-          <select onChange={(event) => selectedFilter(event.target.value)}>
-            <option value="All">All</option>
-            {categories.map((category) => (
-              <option value={category} key={categories.indexOf(category)}>
-                {category}
-              </option>
-            ))}
-          </select>
+      <div className="filters">
+        <div className="sort">
+          <div className="collection-sort">
+            <label>Filter by:</label>
+            <select onChange={(event) => selectedFilter(event.target.value)}>
+              <option value="All">All</option>
+              {categories.map((category) => (
+                <option value={category} key={categories.indexOf(category)}>
+                  {category}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="collection-sort">
+            <label>Sort by:</label>
+            <select>
+              <option value="/">Featured</option>
+              <option value="/">Best Selling</option>
+              <option value="/">Alphabetically, A-Z</option>
+              <option value="/">Alphabetically, Z-A</option>
+              <option value="/">Price, low to high</option>
+              <option value="/">Price, high to low</option>
+              <option value="/">Date, new to old</option>
+              <option value="/">Date, old to new</option>
+            </select>
+          </div>
         </div>
 
-        <div className="collection-sort">
-          <label>Sort by:</label>
-          <select>
-            <option value="/">Featured</option>
-            <option value="/">Best Selling</option>
-            <option value="/">Alphabetically, A-Z</option>
-            <option value="/">Alphabetically, Z-A</option>
-            <option value="/">Price, low to high</option>
-            <option value="/">Price, high to low</option>
-            <option value="/">Date, new to old</option>
-            <option value="/">Date, old to new</option>
-          </select>
+        <div className="slider">
+          <Slider
+            range
+            defaultValue={[minPrice, maxPrice]}
+            max={MAX}
+            min={MIN}
+            onAfterChange={onAfterChange}
+            onChange={onChange}
+          />
+          <div className="price-label">
+            <span className="from">{`${minPrice}$`}</span> - <span className="to">{`${maxPrice}$`}</span>
+          </div>
         </div>
       </div>
     </nav>

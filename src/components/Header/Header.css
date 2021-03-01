@@ -29,3 +29,6 @@
   line-height: 2em;
   text-transform: uppercase;
 }
+.price-label {
+  text-align: center;
+}

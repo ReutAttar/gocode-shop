@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Products from "../components/Products/Products";
 import Header from "../components/Header/Header";
 import SaleCountDown from "../components/SaleCountDown/SaleCountDown";
-import SaleContext from "../contexts/SaleContext";
+// import SaleContext from "../contexts/SaleContext";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
