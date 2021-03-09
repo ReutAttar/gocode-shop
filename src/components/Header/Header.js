@@ -23,10 +23,6 @@ const Header = ({ categories, selectedFilter, selectedRange, MIN, MAX }) => {
   // }, [MAX, MIN]);
 
   function onAfterChange(value) {
-    // console.log("onAfterChange: ", value);
-    // const [min, max] = value;
-    // setMaxPrice(max);
-    // setMinPrice(min);
     selectedRange(value);
   }
   return (

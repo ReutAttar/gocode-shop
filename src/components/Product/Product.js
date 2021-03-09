@@ -6,7 +6,6 @@ import ThemeContext from "../../contexts/ThemeContext";
 
 const Product = ({ sale, image, title, price, id }) => {
   const theme = useContext(ThemeContext);
-
   return (
     <div className="product-card" style={{ background: theme.background }}>
       {sale && <span className="onSale-label">SALE</span>}

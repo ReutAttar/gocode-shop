@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Products from "../components/Products/Products";
 import Header from "../components/Header/Header";
 import SaleCountDown from "../components/SaleCountDown/SaleCountDown";
-// import SaleContext from "../contexts/SaleContext";
+import SaleContext from "../contexts/SaleContext";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -11,12 +11,12 @@ const Home = () => {
   const [priceRange, setPriceRange] = useState([0, 1000]);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(1000);
-  const [sale, setSale] = useState(true);
-  // const sale = useContext(SaleContext);
+  // const [sale, setSale] = useState(true);
+  const [sale, setSale] = useContext(SaleContext);
 
   useEffect(() => {
     async function fetchData() {
-      const res = await fetch("http://localhost:8000"); //"https://fakestoreapi.com/products");
+      const res = await fetch("http://localhost:8000/products"); //"https://fakestoreapi.com/products");
       const json = await res.json();
       setProducts(json);
     }
@@ -25,16 +25,12 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    const getCategories = () => {
-      const groupBy = (xs, key) =>
-        xs.reduce((rv, x) => {
-          rv[x[key]] = true || [];
-          return rv;
-        }, {});
-      setCategories(Object.keys(groupBy(products, "category")));
-    };
-
-    getCategories();
+    const groupBy = (xs, key) =>
+      xs.reduce((rv, x) => {
+        rv[x[key]] = true || [];
+        return rv;
+      }, {});
+    setCategories(Object.keys(groupBy(products, "category")));
   }, [products]);
 
   useEffect(() => {

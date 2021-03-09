@@ -6,7 +6,7 @@ import "./ProductPage.css";
 
 const ProductPage = ({ match }) => {
   const [product, setProduct] = useState({});
-  // const sale = useContext(SaleContext);
+  const [sale] = useContext(SaleContext);
 
   useEffect(() => {
     async function fetchData() {
@@ -21,7 +21,7 @@ const ProductPage = ({ match }) => {
   return product ? (
     <div className="container">
       <div className="left">
-        {/* {sale && <span className="onSale-label">SALE</span>} */}
+        {sale && product.price > 60 && <span className="onSale-label">SALE</span>}
         <div className="images">
           <img src={product.image} alt="productImg" />
         </div>

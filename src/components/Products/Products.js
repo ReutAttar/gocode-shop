@@ -15,8 +15,8 @@ const Products = ({ products, filter, priceRange, sale }) => {
         );
   }, [filter, priceRange, products]);
 
-  const productsItems = filteredProducts.map(({ title, image, price, id }) => (
-    <Product sale={sale && price > 60} title={title} price={price} image={image} key={id} id={id} />
+  const productsItems = filteredProducts.map(({ title, image, price, _id }) => (
+    <Product sale={sale && price > 60} title={title} price={price} image={image} key={_id} id={_id} />
   ));
 
   return <section className="products">{productsItems}</section>;
